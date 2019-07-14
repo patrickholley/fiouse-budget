@@ -2,7 +2,6 @@
   "name": "fiouse-budgets",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://patrickholley.github.io/fiouse-budgets",
   "dependencies": {
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
@@ -33,7 +32,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "gh-pages": "^2.0.1"
-  }
+  "devDependencies": {}
 }
