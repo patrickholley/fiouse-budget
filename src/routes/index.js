@@ -6,8 +6,8 @@ function Routes() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <Budget />} />
-        <Redirect to="/" />
+        <Route exact path="/budget" render={() => <Budget />} />
+        <Redirect to="/budget" />
       </Switch>
     </BrowserRouter>
   );
