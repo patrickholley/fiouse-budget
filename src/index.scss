@@ -1,0 +1,14 @@
+:root {
+  --gold: #dcaf68;
+  --green: #4f594a;
+  --blue_dark: #4e7082;
+  --blue: #80aeb5;
+  --blue_light: #bad5d8;
+  --blue_lighter: #d7e7ea;
+}
+
+body {
+  background-color: var(--blue_lighter);
+  color: var(--green);
+  margin: 0;
+}
