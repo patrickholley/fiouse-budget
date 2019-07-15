@@ -1,11 +1,10 @@
 import React from 'react';
 import "./Budget.scss";
+import BudgetSheetContainer from '../../components/BudgetSheet';
 
 function Budget() {
   return (
-    <div className="App">
-      Budgets from Fiouse
-    </div>
+    <BudgetSheetContainer />
   );
 }
 
