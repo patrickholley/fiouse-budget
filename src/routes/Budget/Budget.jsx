@@ -1,10 +1,14 @@
 import React from 'react';
 import "./Budget.scss";
 import BudgetSheetContainer from '../../components/BudgetSheet';
+import AddBudgetItemContainer from '../../components/AddBudgetItem';
 
 function Budget() {
   return (
-    <BudgetSheetContainer />
+    <div className="budget">
+      <BudgetSheetContainer />
+      <AddBudgetItemContainer />
+    </div>
   );
 }
 

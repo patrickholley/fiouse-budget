@@ -1,10 +1,13 @@
 import React from 'react';
 import "./BudgetItem.scss";
 
-function BudgetItem() {
+function BudgetItem(props) {
+  const { itemName, itemCost, itemDate } = props;
   return (
-    <div>
-      BudgetItems from Fiouse
+    <div className="budget-item">
+      <span>{itemName}</span>
+      <span>{itemCost}</span>
+      <span>{itemDate}</span>
     </div>
   );
 }

@@ -1,10 +1,20 @@
 import React from 'react';
 import "./BudgetSheet.scss";
-import BudgetItem from '../BudgetItem/BudgetItem';
+import BudgetItemContainer from '../BudgetItem/BudgetItemContainer';
 
-function BudgetSheet() {
+function BudgetSheet(props) {
+  const { items } = props;
+
   return (
-    <BudgetItem />
+    <div className="budget-sheet">
+      {items.map(item => (
+        <BudgetItemContainer
+          itemCost={item.itemCost}
+          itemDate={item.itemDate}
+          itemName={item.itemName}
+        />
+      ))}
+    </div>
   );
 }
 
