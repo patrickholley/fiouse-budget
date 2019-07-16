@@ -1,15 +1,16 @@
+const fs = require("fs");
 const componentName = process.argv[2];
 const directoryLocation = process.argv[3];
 
-const fs = require("fs");
+console.log(`Creating component ${componentName} at directory ${directoryLocation} . . .`);
 
 if (!/^[a-zA-Z]+$/.test(componentName)) {
   throw new Error("ERROR: Component name must only contain letters!");
-}
+} else console.log("Valid component name!");
 
 if (!fs.existsSync(directoryLocation)) {
   throw new Error("ERROR: Invalid directory path given!");
-}
+} else console.log("Valid directory location!");
 
 const componentLocation = `${directoryLocation}/${componentName}`;
 
@@ -52,7 +53,18 @@ const styleTemplate =
   color: var(--gold);
 }\n`;
 
-fs.writeFileSync(`${componentLocation}/index.js`, indexTemplate);
-fs.writeFileSync(`${componentLocation}/${componentName}Container.jsx`, containerTemplate);
-fs.writeFileSync(`${componentLocation}/${componentName}.jsx`, componentTemplate);
-fs.writeFileSync(`${componentLocation}/${componentName}.scss`, styleTemplate);
+function writeFile(fileName, fileTemplate) {
+  try {
+    console.log(`Writing ${fileName} . . .`);
+    fs.writeFileSync(fileName, fileTemplate);
+    console.log("Done!");
+  } catch(error) {
+    console.error(`Failed to write ${fileName}!`);
+    throw new Error(error);
+  }
+}
+
+writeFile(`${componentLocation}/index.js`, indexTemplate);
+writeFile(`${componentLocation}/${componentName}Container.jsx`, containerTemplate);
+writeFile(`${componentLocation}/${componentName}.jsx`, componentTemplate);
+writeFile(`${componentLocation}/${componentName}.scss`, styleTemplate);
