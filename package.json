@@ -10,6 +10,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "generate": "node generateComponent.js",
     "predeploy": "yarn build",
     "deploy": "firebase deploy",
     "start": "react-scripts start",
