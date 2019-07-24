@@ -1,10 +1,14 @@
 import React from 'react';
 import "./SignIn.scss";
 
-function SignIn() {
+function SignIn(props) {
   return (
     <div className="sign-in">
-      SignIn
+      <button
+        onClick={props.handleSignIn}
+      >
+        Sign in with Google
+      </button>
     </div>
   );
 }
