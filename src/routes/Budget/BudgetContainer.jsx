@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Budget from './Budget';
 
 function BudgetContainer() {
+
   return (
     <Budget />
   );

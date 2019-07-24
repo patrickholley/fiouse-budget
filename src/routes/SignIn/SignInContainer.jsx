@@ -1,22 +1,34 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FirebaseContext } from "../../lib/utils/FirebaseService";
 import SignIn from './SignIn';
+import { get } from '../../lib/utils/utilityFunctions';
 
 function SignInContainer(props) {
   const firebase = useContext(FirebaseContext);
 
+  const [hasInitializedAuthState, setHasInitializedAuthState] = useState(firebase.hasInitializedAuthState);
+
+  window.addEventListener("authStateChange", () => {
+    setHasInitializedAuthState(true);
+  });
+
   useEffect(function() {
-    console.log("updated?", firebase.user);
-  }, firebase.user);
+    if (!!firebase.auth.currentUser) props.history.push(get(props, "location.state.from", "/"));
+  }, [hasInitializedAuthState]);
 
   function handleSignIn() {
     firebase.signIn();
   }
 
   return (
-    <SignIn
-      handleSignIn={handleSignIn}
-    />
+    <>
+      {hasInitializedAuthState
+        ? <SignIn
+            handleSignIn={handleSignIn}
+          />
+        : <div>Loading . . .</div>
+      }
+    </>
   );
 }
 

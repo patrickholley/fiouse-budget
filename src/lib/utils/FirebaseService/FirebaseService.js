@@ -16,30 +16,20 @@ class FirebaseService {
     app.initializeApp(config);
 
     this.auth = app.auth();
+    this.hasInitializedAuthState = false;
     this.provider = new app.auth.GoogleAuthProvider();
 
-    this.auth.onAuthStateChanged(function(user) {
-      // update user somehow
+    this.auth.onAuthStateChanged(() => {
+      this.hasInitializedAuthState = true;
+      window.dispatchEvent(new Event("authStateChange"));
     });
   }
+
+  isAuth = () => !!this.auth.currentUser;
 
   signIn() {
     this.auth.signInWithRedirect(this.provider);
   }
-
-  /* finishSignIn() {
-    return this.auth.getRedirectResult()
-    .then(response => {
-      if (response.credential) {
-        this.token = response.credential.accessToken;
-      }
-
-      this.user = response.user;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  } */
 }
 
 export default FirebaseService;
