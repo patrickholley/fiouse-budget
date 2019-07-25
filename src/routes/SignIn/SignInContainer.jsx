@@ -1,28 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FirebaseContext } from "../../lib/utils/FirebaseService";
 import SignIn from './SignIn';
 import { get } from '../../lib/utils/utilityFunctions';
+import { AppContext } from '../../App';
+import { SIGN_IN_REQUEST, FIREBASE_AUTH_INITIALIZE } from '../../lib/constants/actions';
 
 function SignInContainer(props) {
-  const firebase = useContext(FirebaseContext);
+  const {
+    dispatch,
+    firebase,
+    reducerState
+  } = useContext(AppContext);
 
   const [hasInitializedAuthState, setHasInitializedAuthState] = useState(firebase.hasInitializedAuthState);
-
-  window.addEventListener("authStateChange", () => {
-    setHasInitializedAuthState(true);
-  });
 
   useEffect(function() {
     if (!!firebase.auth.currentUser) props.history.push(get(props, "location.state.from", "/"));
   }, [hasInitializedAuthState]);
 
   function handleSignIn() {
-    firebase.signIn();
+    dispatch({ type: SIGN_IN_REQUEST });
   }
 
   return (
     <>
-      {hasInitializedAuthState
+      {hasInitializedAuthState && !!firebase.auth.currentUser
         ? <SignIn
             handleSignIn={handleSignIn}
           />

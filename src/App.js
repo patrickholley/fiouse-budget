@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useCallback, useReducer } from 'react';
 import Routes from './routes';
-import FirebaseService, { FirebaseContext } from "./lib/utils/FirebaseService";
+import FirebaseService from "./lib/utils/FirebaseService";
+import combinedReducer from "./reducers";
+import { FIREBASE_AUTH_INITIALIZE } from './lib/constants/actions';
+import { getInitialReducerState } from './lib/utils/reducerHelpers';
+
+export const AppContext = React.createContext();
+const firebase = new FirebaseService();
 
 function App() {
+  const [reducerState, dispatch] = useReducer(combinedReducer, getInitialReducerState(combinedReducer));
+
+  window.addEventListener("authStateChange", () => {
+    dispatch({ type: FIREBASE_AUTH_INITIALIZE });
+  });
+  
   return (
-    <FirebaseContext.Provider value={new FirebaseService()}>
+    <AppContext.Provider
+      value={{
+        dispatch,
+        firebase,
+        reducerState
+      }}
+    >
       <Routes />
-    </FirebaseContext.Provider>
+    </AppContext.Provider>
   );
 }
 

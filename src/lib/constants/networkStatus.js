@@ -1,0 +1,7 @@
+export default Object.freeze({
+  CLEAR: "CLEAR",
+  SUCCESS: "SUCCESS",
+  IN_PROGRESS: "IN_PROGRESS",
+  ERROR_UNAUTH: "ERROR_UNAUTH",
+  ERROR_OTHER: "ERROR_OTHER"
+});

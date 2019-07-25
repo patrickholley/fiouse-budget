@@ -9,7 +9,7 @@ import {
 
 
 export const initialState = {
-
+  budget: null
 };
 
 export default function reducer(state, { type, payload }) {
