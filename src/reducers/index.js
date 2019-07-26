@@ -1,10 +1,11 @@
 import authReducer from "./authReducer";
 import budgetReducer from "./budgetReducer";
-import { combineReducers } from "../lib/utils/reducerHelpers";
+import { createCombinedReducer } from "../lib/utils/reducerHelpers";
+import actions from "../actions";
 
-const combinedReducers = combineReducers({
+const combinedReducers = createCombinedReducer({
   auth: authReducer,
   budget: budgetReducer
-});
+}, actions);
 
 export default combinedReducers;

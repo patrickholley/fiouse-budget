@@ -1,17 +1,25 @@
-import Actions from "../../actions";
+function invokeAction(state, action) {
+  const { type } = action;
+  const { actions } = this;
 
-// implement invokeAction
+  if (actions[type]) actions[type](action);
+}
 
-export function combineReducers(reducersObject) {
-  return function(prevState, action) {
-    const state = {};
+function invokeReducer(prevState, action) {
+  const state = {};
+  const { reducers } = this;
 
-    for (let reducer in reducersObject) {
-      state[reducer] = reducersObject[reducer](prevState[reducer], action);
-    }
-
-    return state;
+  for (let reducer in reducers) {
+    state[reducer] = reducers[reducer](prevState[reducer], action);
   }
+
+  invokeAction.bind(this)(state, action);
+
+  return state;
+}
+
+export function createCombinedReducer(reducers, actions) {
+  return invokeReducer.bind({ reducers, actions });
 }
 
 export function initializeReducerState(combinedReducer) {

@@ -20,7 +20,6 @@ class FirebaseService {
     this.provider = new app.auth.GoogleAuthProvider();
 
     this.auth.onAuthStateChanged(() => {
-      this.hasInitializedAuthState = true;
       window.dispatchEvent(new Event("authStateChange"));
     });
   }
@@ -32,4 +31,6 @@ class FirebaseService {
   }
 }
 
-export default FirebaseService;
+const firebase = new FirebaseService();
+
+export default firebase;

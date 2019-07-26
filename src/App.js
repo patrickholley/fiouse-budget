@@ -6,7 +6,6 @@ import { FIREBASE_AUTH_INITIALIZE } from './lib/constants/actions';
 import { initializeReducerState } from './lib/utils/reducerHelpers';
 
 export const AppContext = React.createContext();
-const firebase = new FirebaseService();
 const initialState = initializeReducerState(combinedReducer);
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
 
   const dispatch = function(action) {
     unboundDispatch({ ...action, dispatch: unboundDispatch });
-  };
+  }
 
   window.addEventListener("authStateChange", () => {
     // conditionally add this if not initialized
@@ -24,11 +23,7 @@ function App() {
   
   return (
     <AppContext.Provider
-      value={{
-        dispatch,
-        firebase,
-        state
-      }}
+      value={{ dispatch, state }}
     >
       <Routes />
     </AppContext.Provider>
