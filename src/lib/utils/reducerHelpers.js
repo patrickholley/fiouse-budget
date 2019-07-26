@@ -1,17 +1,19 @@
+import Actions from "../../actions";
+
+// implement invokeAction
+
 export function combineReducers(reducersObject) {
-  return function(prevState, type) {
-    console.trace();
+  return function(prevState, action) {
     const state = {};
 
     for (let reducer in reducersObject) {
-      state[reducer] = reducersObject[reducer](prevState[reducer], type);
-      console.log(reducer, state[reducer]);
+      state[reducer] = reducersObject[reducer](prevState[reducer], action);
     }
 
     return state;
   }
 }
 
-export function getInitialReducerState(combinedReducer) {
-  return combinedReducer({}, {});
+export function initializeReducerState(combinedReducer) {
+  return combinedReducer({}, { type: null });
 }

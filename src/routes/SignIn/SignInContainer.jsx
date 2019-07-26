@@ -1,35 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SignIn from './SignIn';
 import { get } from '../../lib/utils/utilityFunctions';
 import { AppContext } from '../../App';
-import { SIGN_IN_REQUEST, FIREBASE_AUTH_INITIALIZE } from '../../lib/constants/actions';
+import { SIGN_IN_REQUEST } from '../../lib/constants/actions';
 
 function SignInContainer(props) {
   const {
     dispatch,
-    firebase,
-    reducerState
+    state
   } = useContext(AppContext);
 
-  const [hasInitializedAuthState, setHasInitializedAuthState] = useState(firebase.hasInitializedAuthState);
+  const { firebaseAuthInitialized, user } = state.auth;
 
   useEffect(function() {
-    if (!!firebase.auth.currentUser) props.history.push(get(props, "location.state.from", "/"));
-  }, [hasInitializedAuthState]);
+    console.log(firebaseAuthInitialized, user);
+    if (!!user) props.history.push(get(props, "location.state.from", "/"));
+  }, [firebaseAuthInitialized, user]);
 
   function handleSignIn() {
     dispatch({ type: SIGN_IN_REQUEST });
   }
 
   return (
-    <>
-      {hasInitializedAuthState && !!firebase.auth.currentUser
-        ? <SignIn
-            handleSignIn={handleSignIn}
-          />
-        : <div>Loading . . .</div>
-      }
-    </>
+    <SignIn
+      handleSignIn={handleSignIn}
+    />
   );
 }
 

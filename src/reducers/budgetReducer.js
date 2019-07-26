@@ -12,7 +12,7 @@ export const initialState = {
   budget: null
 };
 
-export default function reducer(state, { type, payload }) {
+export default function reducer(state = initialState, { type, payload }) {
   switch(type) {
     case GET_BUDGET_REQUEST:
       return { ...state };

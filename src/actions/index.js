@@ -1,5 +1,6 @@
 import { signIn } from "./authActions";
+import { SIGN_IN_REQUEST } from "../lib/constants/actions";
 
 export default {
-  ...authActions
+  [SIGN_IN_REQUEST]: signIn
 };

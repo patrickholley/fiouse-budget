@@ -20,11 +20,11 @@ export default function reducer(state = initialState, action) {
     case FIREBASE_AUTH_INITIALIZE:
       return { ...state, firebaseAuthInitialized: true };
     case SIGN_IN_REQUEST:
-      return { ...state, signInStatus: networkStatus.CLEAR };
+      return { ...state, signInStatus: networkStatus.IN_PROGRESS };
     case SIGN_IN_RESPONSE:
       return { ...state, signInStatus: networkStatus.SUCCESS, user: payload.user };
     case SIGN_IN_ERROR:
-      return { ...state, signInStatus: payload.signInStatus, user: null };
+      return { ...state, signInStatus: payload.signInStatus };
     default:
       return state;
   }
