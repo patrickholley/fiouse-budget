@@ -3,14 +3,13 @@ import { Redirect, Route } from "react-router-dom";
 import { AppContext } from '../../App';
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { firebase, state } = useContext(AppContext);
-  console.log(state.budget);
+  const { state } = useContext(AppContext);
 
   return (
     <Route
       {...rest}
       render={props => (
-        !!firebase.auth.currentUser
+        !!state.auth.user
         ? <Component {...props} />
         : <Redirect
             to={{

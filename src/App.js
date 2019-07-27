@@ -15,10 +15,11 @@ function App() {
     unboundDispatch({ ...action, dispatch: unboundDispatch });
   }
 
-  window.addEventListener("authStateChange", () => {
+  window.addEventListener("authStateChange", e => {
     // conditionally add this if not initialized
     // remove when done
-    dispatch({ type: FIREBASE_AUTH_INITIALIZE });
+    console.log(e);
+    dispatch({ type: FIREBASE_AUTH_INITIALIZE, payload: { user: e.detail.user } });
   });
   
   return (

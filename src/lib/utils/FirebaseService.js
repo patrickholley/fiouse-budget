@@ -19,8 +19,9 @@ class FirebaseService {
     this.hasInitializedAuthState = false;
     this.provider = new app.auth.GoogleAuthProvider();
 
-    this.auth.onAuthStateChanged(() => {
-      window.dispatchEvent(new Event("authStateChange"));
+    this.auth.onAuthStateChanged(user => {
+      console.log(!!user, !!this.auth.currentUser);
+      window.dispatchEvent(new CustomEvent("authStateChange", { detail: this.auth.currentUser }));
     });
   }
 

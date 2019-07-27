@@ -14,11 +14,12 @@ export const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-  const { type } = action;
+  const { type, payload } = action;
+  console.log(type, action, payload && payload.user);
 
   switch(type) {
     case FIREBASE_AUTH_INITIALIZE:
-      return { ...state, firebaseAuthInitialized: true };
+      return { ...state, firebaseAuthInitialized: true, user: payload.user };
     case SIGN_IN_REQUEST:
       return { ...state, signInStatus: networkStatus.IN_PROGRESS };
     default:
