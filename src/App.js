@@ -28,7 +28,7 @@ function App() {
     <AppContext.Provider
       value={{ dispatch, state }}
     >
-      {state.auth.firebaseAuthInitialized
+      {state.auth.initialized
         ? <Routes />
         : <div>Loading . . .</div>
       }

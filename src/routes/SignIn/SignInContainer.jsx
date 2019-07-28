@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import SignIn from './SignIn';
 import { get } from '../../lib/utils/utilityFunctions';
 import { AppContext } from '../../App';
@@ -10,11 +10,11 @@ function SignInContainer(props) {
     state
   } = useContext(AppContext);
 
-  const { firebaseAuthInitialized, user } = state.auth;
+  const { user } = state.auth;
 
-  useEffect(function() {
+  useLayoutEffect(function() {
     if (!!user) props.history.push(get(props, "location.state.from", "/"));
-  }, [firebaseAuthInitialized, user]);
+  }, [user]);
 
   function handleSignIn() {
     dispatch({ type: SIGN_IN_REQUEST });
