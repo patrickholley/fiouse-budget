@@ -1,4 +1,4 @@
-function invokeAction(state, action) {
+function invokeAction(action) {
   const { type } = action;
   const { actions } = this;
 
@@ -13,7 +13,7 @@ function invokeReducer(prevState, action) {
     state[reducer] = reducers[reducer](prevState[reducer], action);
   }
 
-  invokeAction.bind(this)(state, action);
+  invokeAction.bind(this)(action);
 
   return state;
 }

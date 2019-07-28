@@ -13,7 +13,6 @@ function SignInContainer(props) {
   const { firebaseAuthInitialized, user } = state.auth;
 
   useEffect(function() {
-    console.log(firebaseAuthInitialized, user)
     if (!!user) props.history.push(get(props, "location.state.from", "/"));
   }, [firebaseAuthInitialized, user]);
 

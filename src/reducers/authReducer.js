@@ -1,8 +1,6 @@
 import {
-  SIGN_IN_REQUEST,
-  SIGN_IN_RESPONSE,
-  SIGN_IN_ERROR,
-  FIREBASE_AUTH_INITIALIZE
+  AUTH_STATE_CHANGED,
+  SIGN_IN_REQUEST
 } from "../lib/constants/actions";
 import networkStatus from "../lib/constants/networkStatus";
 
@@ -15,10 +13,9 @@ export const initialState = {
 
 export default function reducer(state = initialState, action) {
   const { type, payload } = action;
-  console.log(type, action, payload && payload.user);
 
   switch(type) {
-    case FIREBASE_AUTH_INITIALIZE:
+    case AUTH_STATE_CHANGED:
       return { ...state, firebaseAuthInitialized: true, user: payload.user };
     case SIGN_IN_REQUEST:
       return { ...state, signInStatus: networkStatus.IN_PROGRESS };
