@@ -1,32 +1,25 @@
 import {
-  GET_BUDGET_REQUEST,
-  GET_BUDGET_RESPONSE,
-  GET_BUDGET_ERROR,
-  GET_BUDGET_ITEMS_REQUEST,
-  GET_BUDGET_ITEMS_RESPONSE,
-  GET_BUDGET_ITEMS_ERROR
+  CREATE_BUDGET_REQUEST,
+  CREATE_BUDGET_RESPONSE,
+  CREATE_BUDGET_ERROR
 } from "../lib/constants/actions";
-
+import networkStatus from "../lib/constants/networkStatus";
 
 export const initialState = {
-  budget: null
+  budgets: null,
+  createBudgetStatus: networkStatus.CLEAR,
+  currentBudget: null
 };
 
 export default function reducer(state = initialState, { type, payload }) {
-  switch(type) {
-    case GET_BUDGET_REQUEST:
-      return { ...state };
-    case GET_BUDGET_RESPONSE:
-      return { ...state };
-    case GET_BUDGET_ERROR:
-      return { ...state };
-    case GET_BUDGET_ITEMS_REQUEST:
-      return { ...state };
-    case GET_BUDGET_ITEMS_RESPONSE:
-      return { ...state };
-    case GET_BUDGET_ITEMS_ERROR:
-      return { ...state };
+  switch (type) {
+    case CREATE_BUDGET_REQUEST:
+      return { ...state, createBudgetStatus: networkStatus.IN_PROGRESS };
+    case CREATE_BUDGET_RESPONSE:
+      return { ...state, createBudgetStatus: networkStatus.SUCCESS };
+    case CREATE_BUDGET_ERROR:
+      return { ...state, createBudgetStatus: networkStatus.ERROR_OTHER };
     default:
-      return state; 
+      return state;
   }
 }

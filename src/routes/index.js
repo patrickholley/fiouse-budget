@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import Budget from './Budget';
+import CreateBudget from "./CreateBudget";
+import Budget from "./Budget";
 import Settings from "./Settings";
-import SignIn from './SignIn';
-import PrivateRoute from '../components/PrivateRoute';
+import SignIn from "./SignIn";
+import PrivateRoute from "../components/PrivateRoute";
 import Navigation from "../components/Navigation";
 
 function Routes() {
@@ -14,6 +15,7 @@ function Routes() {
         <Navigation>
           <Switch>
             <PrivateRoute exact path="/" component={Budget} />
+            <PrivateRoute exact path="/create" component={CreateBudget} />
             <PrivateRoute exact path="/settings" component={Settings} />
             <Redirect to="/" />
           </Switch>

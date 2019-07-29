@@ -1,5 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 const config = {
   apiKey: "AIzaSyCxueM7GEUHCO_X7k6vce3WDlYbusIdX40",
@@ -16,12 +17,19 @@ class FirebaseService {
     app.initializeApp(config);
 
     this.auth = app.auth();
+    this.database = app.firestore();
     this.provider = new app.auth.GoogleAuthProvider();
 
     this.auth.onAuthStateChanged(() => {
-      window.dispatchEvent(new CustomEvent("authStateChange", { detail: { user: this.auth.currentUser } }));
+      window.dispatchEvent(
+        new CustomEvent("authStateChange", {
+          detail: { user: this.auth.currentUser }
+        })
+      );
     });
   }
+
+  createBudget() {}
 
   signIn() {
     this.auth.signInWithRedirect(this.provider);

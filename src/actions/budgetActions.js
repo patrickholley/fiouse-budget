@@ -1,7 +1,3 @@
-export function getBudget(payload) {
-
-}
-
-export function getBudgetItems(payload) {
-
+export function createBudget({ payload, dispatch }) {
+  console.log(payload);
 }
