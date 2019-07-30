@@ -10,6 +10,7 @@ function AddBudgetItem(props) {
         onChange={function(e) {
           handleChange(e.target.value, "itemName");
         }}
+        placeholder="Description"
         type="text"
         value={itemName}
       />
@@ -17,6 +18,7 @@ function AddBudgetItem(props) {
         onChange={function(e) {
           handleChange(e.target.value, "itemCost");
         }}
+        placeholder="Cost"
         type="tel"
         value={itemCost}
       />

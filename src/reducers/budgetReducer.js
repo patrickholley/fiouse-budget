@@ -1,7 +1,8 @@
 import {
   CREATE_BUDGET_REQUEST,
   CREATE_BUDGET_RESPONSE,
-  CREATE_BUDGET_ERROR
+  CREATE_BUDGET_ERROR,
+  GET_BUDGETS_RESPONSE
 } from "../lib/constants/actions";
 import networkStatus from "../lib/constants/networkStatus";
 
@@ -16,9 +17,16 @@ export default function reducer(state = initialState, { type, payload }) {
     case CREATE_BUDGET_REQUEST:
       return { ...state, createBudgetStatus: networkStatus.IN_PROGRESS };
     case CREATE_BUDGET_RESPONSE:
-      return { ...state, createBudgetStatus: networkStatus.SUCCESS };
+      return {
+        ...state,
+        createBudgetStatus: networkStatus.SUCCESS,
+        currentBudget: payload.currentBudget
+      };
     case CREATE_BUDGET_ERROR:
       return { ...state, createBudgetStatus: networkStatus.ERROR_OTHER };
+    case GET_BUDGETS_RESPONSE:
+      console.log(payload.budgets);
+      return { ...state, budgets: payload.budgets };
     default:
       return state;
   }

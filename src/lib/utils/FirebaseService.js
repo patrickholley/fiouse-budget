@@ -21,6 +21,8 @@ class FirebaseService {
     this.provider = new app.auth.GoogleAuthProvider();
 
     this.auth.onAuthStateChanged(() => {
+      this.user = this.auth.currentUser;
+
       window.dispatchEvent(
         new CustomEvent("authStateChange", {
           detail: { user: this.auth.currentUser }
@@ -29,7 +31,53 @@ class FirebaseService {
     });
   }
 
-  createBudget() {}
+  createBudget(budgetInfo) {
+    const { displayName, uid } = this.user;
+    budgetInfo.users = {
+      [uid]: {
+        uid,
+        name: displayName
+      }
+    };
+
+    return this.database
+      .collection("budgets")
+      .add(budgetInfo)
+      .then(({ id }) => {
+        this.database
+          .collection("users")
+          .doc(uid)
+          .set(
+            {
+              uid,
+              name: displayName,
+              budgets: {
+                [id]: {
+                  id,
+                  name: budgetInfo.budgetName
+                }
+              }
+            },
+            { merge: true }
+          )
+          .then(() => {
+            this.database
+              .collection("budgetItems")
+              .doc(id)
+              .set({});
+          });
+      });
+  }
+
+  getBudgets() {
+    return this.database
+      .collection("users")
+      .doc(this.user.uid)
+      .get()
+      .then(doc => {
+        return doc.exists ? Object.values(doc.data().budgets) : [];
+      });
+  }
 
   signIn() {
     this.auth.signInWithRedirect(this.provider);
