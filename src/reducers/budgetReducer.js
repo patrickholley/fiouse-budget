@@ -7,7 +7,7 @@ import {
 import networkStatus from "../lib/constants/networkStatus";
 
 export const initialState = {
-  budgets: null,
+  budgets: [],
   createBudgetStatus: networkStatus.CLEAR,
   currentBudget: null
 };
@@ -19,13 +19,13 @@ export default function reducer(state = initialState, { type, payload }) {
     case CREATE_BUDGET_RESPONSE:
       return {
         ...state,
+        budgets: state.budgets.concat(payload.currentBudget),
         createBudgetStatus: networkStatus.SUCCESS,
         currentBudget: payload.currentBudget
       };
     case CREATE_BUDGET_ERROR:
       return { ...state, createBudgetStatus: networkStatus.ERROR_OTHER };
     case GET_BUDGETS_RESPONSE:
-      console.log(payload.budgets);
       return { ...state, budgets: payload.budgets };
     default:
       return state;

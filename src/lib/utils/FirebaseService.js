@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { thisTypeAnnotation } from "@babel/types";
 
 const config = {
   apiKey: "AIzaSyCxueM7GEUHCO_X7k6vce3WDlYbusIdX40",
@@ -31,43 +32,54 @@ class FirebaseService {
     });
   }
 
+  addBudgetItem(budgetItem) {
+    return this.database.collection("budgetItems").set();
+  }
+
   createBudget(budgetInfo) {
     const { displayName, uid } = this.user;
-    budgetInfo.users = {
-      [uid]: {
-        uid,
-        name: displayName
-      }
-    };
 
     return this.database
       .collection("budgets")
-      .add(budgetInfo)
+      .add({
+        ...budgetInfo,
+        users: {
+          [uid]: {
+            name: displayName,
+            uid
+          }
+        }
+      })
       .then(({ id }) => {
         this.database
-          .collection("users")
-          .doc(uid)
-          .set(
-            {
-              uid,
-              name: displayName,
-              budgets: {
-                [id]: {
-                  id,
-                  name: budgetInfo.budgetName
-                }
-              }
-            },
-            { merge: true }
-          )
+          .collection("budgets")
+          .doc(id)
+          .set({ id }, { merge: true })
           .then(() => {
             this.database
-              .collection("budgetItems")
-              .doc(id)
-              .set({});
+              .collection("users")
+              .doc(uid)
+              .set(
+                {
+                  uid,
+                  name: displayName,
+                  budgets: {
+                    [id]: { name: budgetInfo.budgetName }
+                  }
+                },
+                { merge: true }
+              )
+              .then(() => {
+                this.database
+                  .collection("budgetItems")
+                  .doc(id)
+                  .set({});
+              });
           });
       });
   }
+
+  getBudgetItems(budget) {}
 
   getBudgets() {
     return this.database

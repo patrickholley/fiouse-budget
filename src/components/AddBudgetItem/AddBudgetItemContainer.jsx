@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import AddBudgetItem from './AddBudgetItem';
+import React, { useContext, useState } from "react";
+import AddBudgetItem from "./AddBudgetItem";
+import { ADD_ITEM_REQUEST } from "../../lib/constants/actions";
+import { AppContext } from "../../App";
 
 function AddBudgetItemContainer() {
+  const { state, dispatch } = useContext(AppContext);
   const [itemName, setItemName] = useState("");
   const [itemCost, setItemCost] = useState("");
 
@@ -11,7 +14,13 @@ function AddBudgetItemContainer() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(itemName, itemCost);
+    dispatch({
+      type: ADD_ITEM_REQUEST,
+      payload: {
+        budgetItem: { itemName, itemCost },
+        currentBudget: state.budget.currentBudget
+      }
+    });
   }
 
   return (
