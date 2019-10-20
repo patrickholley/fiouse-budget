@@ -14,7 +14,7 @@
     "generate": "node generateComponent.js",
     "predeploy": "yarn build",
     "deploy": "firebase deploy",
-    "start": "react-scripts start",
+    "start": "BROWSER=waterfox react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

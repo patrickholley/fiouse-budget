@@ -24,8 +24,12 @@ export function createBudget({ payload, dispatch }) {
 export function getBudgets({ dispatch }) {
   firebase
     .getBudgets()
-    .then(budgets => {
-      dispatch({ type: GET_BUDGETS_RESPONSE, payload: { budgets } });
+    .then(({ budgets }) => {
+      // error handling
+      dispatch({
+        type: GET_BUDGETS_RESPONSE,
+        payload: { budgets: Object.values(budgets) }
+      });
     })
     .catch(error => {
       console.error("Error getting budgets:", error);

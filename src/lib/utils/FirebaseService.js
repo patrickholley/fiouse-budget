@@ -1,7 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { thisTypeAnnotation } from "@babel/types";
 
 const config = {
   apiKey: "AIzaSyCxueM7GEUHCO_X7k6vce3WDlYbusIdX40",
@@ -33,63 +32,51 @@ class FirebaseService {
   }
 
   addBudgetItem(budgetItem) {
-    return this.database.collection("budgetItems").set();
+    // return this.database.collection("budgetItems").set();
   }
+
+  addToDoc = (name, value) => this.database.collection(name).add(value);
 
   createBudget(budgetInfo) {
     const { displayName, uid } = this.user;
 
-    return this.database
-      .collection("budgets")
-      .add({
-        ...budgetInfo,
-        users: {
-          [uid]: {
-            name: displayName,
-            uid
-          }
+    const budgetToAdd = {
+      ...budgetInfo,
+      users: {
+        [uid]: {
+          name: displayName,
+          uid
         }
-      })
-      .then(({ id }) => {
-        this.database
-          .collection("budgets")
-          .doc(id)
-          .set({ id }, { merge: true })
-          .then(() => {
-            this.database
-              .collection("users")
-              .doc(uid)
-              .set(
-                {
-                  uid,
-                  name: displayName,
-                  budgets: {
-                    [id]: { name: budgetInfo.budgetName }
-                  }
-                },
-                { merge: true }
-              )
-              .then(() => {
-                this.database
-                  .collection("budgetItems")
-                  .doc(id)
-                  .set({});
-              });
-          });
+      }
+    };
+
+    return this.addToDoc("budgets", budgetToAdd).then(({ id }) => {
+      this.setToDoc("budgets", id, { id }).then(() => {
+        const updatedUser = {
+          uid,
+          name: displayName,
+          budgets: {
+            [id]: { name: budgetInfo.budgetName }
+          }
+        };
+
+        this.setToDoc("users", uid, updatedUser).then(() => {
+          this.setToDoc("budgetItems", id, {});
+        });
       });
+    });
   }
 
-  getBudgetItems(budget) {}
+  getBudgetItems = budget => this.getFromDoc("budgetItems", budget.id);
 
-  getBudgets() {
-    return this.database
-      .collection("users")
-      .doc(this.user.uid)
+  getBudgets = () => this.getFromDoc("users", this.user.uid);
+
+  getFromDoc = (name, id) =>
+    this.database
+      .collection(name)
+      .doc(id)
       .get()
-      .then(doc => {
-        return doc.exists ? Object.values(doc.data().budgets) : [];
-      });
-  }
+      .then(doc => (doc.exists ? doc.data() : {}));
 
   signIn() {
     this.auth.signInWithRedirect(this.provider);
@@ -98,6 +85,12 @@ class FirebaseService {
   signOut() {
     this.auth.signOut();
   }
+
+  setToDoc = (name, id, value) =>
+    this.database
+      .collection(name)
+      .doc(id)
+      .set(value, { merge: true });
 }
 
 const firebase = new FirebaseService();
